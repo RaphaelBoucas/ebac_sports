@@ -1,5 +1,13 @@
 import * as S from './styles'
 
+import { useSelector } from 'react-redux'
+
+import {
+  selectFavouritesQtt,
+  selectProductinCart,
+  selectTotalValue
+} from '../../features/carrinho'
+
 import { Produto } from '../../App'
 
 import cesta from '../../assets/cesta.png'
@@ -10,20 +18,19 @@ type Props = {
   favoritos: Produto[]
 }
 
-const Header = ({ itensNoCarrinho, favoritos }: Props) => {
-  const valorTotal = itensNoCarrinho.reduce((acc, item) => {
-    acc += item.preco
-    return acc
-  }, 0)
+const Header: React.FC<Props> = ({ itensNoCarrinho, favoritos }) => {
+  const valorTotal = useSelector(selectTotalValue)
+  const quantidade = useSelector(selectProductinCart)
+  const favourites = useSelector(selectFavouritesQtt)
 
   return (
     <S.Header>
       <h1>EBAC Sports</h1>
       <div>
-        <span>{favoritos.length} favoritos</span>
+        <span>{favourites} favoritos</span>
         <img src={cesta} />
         <span>
-          {itensNoCarrinho.length} itens, valor total: {paraReal(valorTotal)}
+          {quantidade} itens, valor total: {paraReal(valorTotal)}
         </span>
       </div>
     </S.Header>
